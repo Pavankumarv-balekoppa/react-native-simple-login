@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -7,16 +8,20 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import LoginScreen from './src/components/LoginScreen';
+import Signup from './src/components/Signup';
 import Dashboard from './src/components/Dashboard';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import Login from './src/components/Login';
+import ForgotPass from './src/components/ForgotPass';
+import BatteryStatus from './src/components/BatteryStatus';
+import TmplDetailsPage from './src/components/TmplDetailsPage';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const Stack = createStackNavigator();
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: !isDarkMode ? Colors.darker : Colors.lighter,
     flex: 1,
   };
 
@@ -27,28 +32,49 @@ function App(): React.JSX.Element {
     //     barStyle={isDarkMode ? 'light-content' : 'dark-content'}
     //     backgroundColor={backgroundStyle.backgroundColor}
     //   />
-    //   <LoginScreen />
+    //   <Signup />
     //   {/* <Dashboard/> */}
-    //   {/* {currentScreen === 'login' ? <LoginScreen /> : <Dashboard />} */}
+    //   {/* {currentScreen === 'login' ? <Signup /> : <Dashboard />} */}
     // </SafeAreaView>
 
     // with navigation
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        barStyle={!isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Login"
           screenOptions={{
+            headerShown: Platform?.OS === 'android' ? false : true,
             headerStyle: {
               backgroundColor: backgroundStyle.backgroundColor,
             },
-            headerTintColor: '#fff',
+            headerTintColor: !isDarkMode ? '#fff' : '#000',
           }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="ForgotPass" component={ForgotPass} />
+          <Stack.Screen name="BatteryStatus" component={BatteryStatus} />
+          <Stack.Screen
+            name="Dashboard"
+            component={Dashboard}
+            options={() => ({
+              headerShown: true,
+              headerTitle: 'Dashboard',
+              headerBackTitleVisible: false,
+            })}
+          />
+          <Stack.Screen
+            name="TmplDetailsPage"
+            component={TmplDetailsPage}
+            options={({route}) => ({
+              headerShown: true, // Show the header
+              headerTitle: route.params?.title || 'TmplDetailsPage', // Use the title from route params or a fallback title
+              headerBackTitleVisible: false, // Hide the back button title
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

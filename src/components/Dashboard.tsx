@@ -1,55 +1,53 @@
-import {useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {mockdata} from '../constants/helper';
+import {height, templeData, width} from '../constants/helper';
+import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 
 const Dashboard = () => {
-  const [data, setdata] = useState(mockdata);
+  const [data, setdata] = useState(templeData);
+  const navigation = useNavigation();
 
-  const handlepress = () => {
-    console.log('check===');
+
+  const handlepress = (item: any) => {
+    navigation.push('TmplDetailsPage', item);
+    //  navigation.navigate('TmplDetailsPage', item);
   };
-  
+
+  const renderItems = React.useCallback(
+    ({item, index}: any) => {
+      return (
+        <View key={index}>
+          <Pressable
+            style={styles.contect}
+            onPress={() => {
+              handlepress(item);
+            }}>
+            <FastImage
+              source={{uri: item?.img}}
+              style={{width: width - 40, height: 200}}
+            />
+            <Text
+              style={{
+                color: 'white',
+              }}>
+              {`Title : ${item?.title}`}
+            </Text>
+          </Pressable>
+        </View>
+      );
+    },
+    [data],
+  );
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dashboard</Text>
       <FlatList
         data={data}
-        horizontal
-        renderItem={({item, index}) => {
-          return (
-            <View key={index}>
-              <View style={styles.contect}>
-                <TouchableOpacity
-                  onPress={() => handlepress()}
-                  style={styles.crossbtn}>
-                  <Text>x</Text>
-                </TouchableOpacity>
-                {/* <View style={styles.profile}>
-                  <Text
-                    style={{
-                      color: 'white',
-                    }}>
-                    {item.data[0]?.toUpperCase()}
-                  </Text>
-                </View> */}
-                
-                <Text
-                  style={{
-                    color: 'white',
-                  }}>
-                  {item.content_type}
-                </Text>
-                <Text
-                  style={{
-                    color: 'white',
-                  }}>
-                  {item.data}
-                </Text>
-              </View>
-            </View>
-          );
-        }}
+        scrollEnabled={true}
+        renderItem={renderItems}
+        bounces={false}
+        keyExtractor={item => item.title}
       />
     </View>
   );
@@ -69,8 +67,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   contect: {
-    height: 150,
-    width: 130,
     padding: 10,
     margin: 10,
     backgroundColor: '#fff3',
