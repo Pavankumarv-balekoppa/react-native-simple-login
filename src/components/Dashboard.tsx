@@ -6,9 +6,19 @@ import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
 
 const Dashboard = () => {
-  const [data, setdata] = useState(templeData);
+  const [data, setdata] = useState([]);
   const navigation = useNavigation();
-
+const getData = async () => {
+  const response = await fetch(
+    'https://pavanallprojectdata.onrender.com/templeData',
+  );
+  const json = await response.json();
+  setdata(json);
+};
+useEffect(() => {
+  getData();
+  console.log('data=====');
+}, []);
 
   const handlepress = (item: any) => {
     navigation.push('TmplDetailsPage', item);
