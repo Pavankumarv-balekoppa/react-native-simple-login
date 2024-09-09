@@ -16,6 +16,7 @@ import Login from './src/components/Login';
 import ForgotPass from './src/components/ForgotPass';
 import BatteryStatus from './src/components/BatteryStatus';
 import TmplDetailsPage from './src/components/TmplDetailsPage';
+import AddTemples from './src/components/AddTemples';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -63,6 +64,15 @@ function App(): React.JSX.Element {
             options={() => ({
               headerShown: true,
               headerTitle: 'Dashboard',
+              headerBackTitleVisible: false,
+            })}
+          />
+          <Stack.Screen
+            name="AddTemples"
+            component={AddTemples}
+            options={() => ({
+              headerShown: true,
+              headerTitle: 'Add Temples',
               headerBackTitleVisible: false,
             })}
           />

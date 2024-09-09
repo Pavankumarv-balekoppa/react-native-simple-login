@@ -1,24 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {height, templeData, width} from '../constants/helper';
+import {width} from '../constants/helper';
 import FastImage from 'react-native-fast-image';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Dashboard = () => {
   const [data, setdata] = useState([]);
   const navigation = useNavigation();
-const getData = async () => {
-  const response = await fetch(
-    'https://pavanallprojectdata.onrender.com/templeData',
-  );
-  const json = await response.json();
-  setdata(json);
-};
-useEffect(() => {
-  getData();
-  console.log('data=====');
-}, []);
+  const getData = async () => {
+    const response = await fetch(
+      'https://pavanallprojectdata.onrender.com/templeData',
+    );
+    const json = await response.json();
+    console.log('dataLength=====', json?.length);
+    setdata(json);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handlepress = (item: any) => {
     navigation.push('TmplDetailsPage', item);
@@ -50,15 +50,24 @@ useEffect(() => {
     },
     [data],
   );
+
+  const dataLoading = () => {
+    return <Text style={styles.title}>Loading....</Text>;
+  };
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        scrollEnabled={true}
-        renderItem={renderItems}
-        bounces={false}
-        keyExtractor={item => item.title}
-      />
+      {data?.length ? (
+        <FlatList
+          data={data}
+          scrollEnabled={true}
+          renderItem={renderItems}
+          bounces={false}
+          keyExtractor={item => item.title}
+        />
+      ) : (
+        dataLoading()
+      )}
     </View>
   );
 };
