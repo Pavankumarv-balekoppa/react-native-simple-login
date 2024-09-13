@@ -3,10 +3,14 @@ import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import {width} from '../constants/helper';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import { ActivityIndicator } from 'react-native-paper';
+import { logout } from '../Slice/authSlice';
+import { useDispatch } from 'react-redux';
 
 const Dashboard = () => {
   const [data, setdata] = useState([]);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const getData = async () => {
     const response = await fetch(
       'https://pavanallprojectdata.onrender.com/templeData',
@@ -52,8 +56,16 @@ const Dashboard = () => {
   );
 
   const dataLoading = () => {
-    return <Text style={styles.title}>Loading....</Text>;
+    return (
+      <Text style={styles.title}>
+        <ActivityIndicator size="large" color='#ffff'/>
+      </Text>
+    );
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  }
 
   return (
     <View style={styles.container}>
@@ -68,6 +80,9 @@ const Dashboard = () => {
       ) : (
         dataLoading()
       )}
+      <Pressable onPress={handleLogout}>
+        <Text style={styles.logoutBtn}>Logout</Text>
+      </Pressable>
     </View>
   );
 };
@@ -111,5 +126,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 5,
     borderColor: 'white',
+  },
+  logoutBtn: {
+    padding: 10,
+    margin: 10,
+    backgroundColor: '#fff3',
+    color: '#fff',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

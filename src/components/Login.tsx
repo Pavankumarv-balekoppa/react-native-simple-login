@@ -9,30 +9,40 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
+import {login} from '../Slice/authSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
-    // if (!email) {
-    //   alert('Email is Required');
-    // } else if (
-    //   !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    // ) {
-    //   alert('please enter valid Email');
-    // } else if (!password) {
-    //   alert('Password is Required');
-    // } else if (
-    //   !password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/)
-    // ) {
-    //   alert(
-    //     'Password must contain at least one number and one special character and be at least 8 characters long',
-    //   );
-    // } else if (email === 'pavan.v@adcuratio.com' && password === 'pavan@123') {
-     if (email === 'p' && password === 'p') {
-      navigation.navigate('Dashboard');
+    if (!email) {
+      alert('Email is Required');
+    } else if (
+      !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ) {
+      alert('please enter valid Email');
+    } else if (!password) {
+      alert('Password is Required');
+    } else if (
+      !password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/)
+    ) {
+      alert(
+        'Password must contain at least one number and one special character and be at least 8 characters long',
+      );
+    } else if (email && password) {
+      const userData = {email, password};
+      const res = dispatch(login(userData));
+      console.log(res?.payload?.email, 'res');
+      if (
+        res?.payload?.email === 'pavan.v@adcuratio.com' &&
+        res?.payload?.password === 'pavan@123'
+      ) {
+        navigation.navigate('Dashboard');
+      }
     } else {
       alert('Invalid credentials');
     }

@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import InputText from '../CommanComponents/InputText';
 import PressableButton from '../CommanComponents/PressableButton';
-import {launchImageLibrary} from 'react-native-image-picker';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const AddTemples = () => {
   const [title, setTitle] = useState('');
