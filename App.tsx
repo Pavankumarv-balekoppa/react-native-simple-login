@@ -20,7 +20,6 @@ import AddTemples from './src/components/AddTemples';
 import {Provider} from 'react-redux';
 import {store} from './src/Store/Store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getUserData} from './src/constants/helper';
 import { Text } from 'react-native-paper';
 
 function App(): React.JSX.Element {
