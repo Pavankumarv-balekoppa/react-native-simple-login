@@ -29,7 +29,7 @@ const TmplDetailsPage=({route}: any)=>{
             showMore ? route?.params?.details?.length : 500,
           )}
         </Text>
-        <Pressable
+        {route?.params?.details?.length > 500 && <Pressable
           onPress={() => setShowMore(!showMore)}
           style={{alignSelf: 'flex-end', paddingBottom: 20}}>
           <Text
@@ -43,7 +43,7 @@ const TmplDetailsPage=({route}: any)=>{
               ? 'Show less...'
               : 'Show more...' : ""}
           </Text>
-        </Pressable>
+        </Pressable>}
       </View>
     </ScrollView>
   );

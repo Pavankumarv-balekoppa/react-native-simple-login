@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -17,14 +17,47 @@ import ForgotPass from './src/components/ForgotPass';
 import BatteryStatus from './src/components/BatteryStatus';
 import TmplDetailsPage from './src/components/TmplDetailsPage';
 import AddTemples from './src/components/AddTemples';
+import {Provider} from 'react-redux';
+import {store} from './src/Store/Store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getUserData} from './src/constants/helper';
+import { Text } from 'react-native-paper';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const Stack = createStackNavigator();
+  const [userData, setUserData] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
   const backgroundStyle = {
     backgroundColor: !isDarkMode ? Colors.darker : Colors.lighter,
     flex: 1,
   };
+    const fetchUserData = async () => {
+      try {
+        const data = await AsyncStorage.getItem('user');
+        setUserData(data != null ? JSON.parse(data) : null);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false); // Set loading to false once data is fetched
+      }
+    };
+
+    useEffect(() => {
+      fetchUserData();
+    }, []);
+
+    if (loading) {
+      return (
+        <SafeAreaView
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <Text>Loading...</Text>
+        </SafeAreaView>
+      );
+    }
+
+  console.log('userdata', userData);
 
   return (
     // without Navigation
@@ -39,55 +72,57 @@ function App(): React.JSX.Element {
     // </SafeAreaView>
 
     // with navigation
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={!isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Login"
-          screenOptions={{
-            headerShown: Platform?.OS === 'android' ? false : true,
-            headerStyle: {
-              backgroundColor: backgroundStyle.backgroundColor,
-            },
-            headerTintColor: !isDarkMode ? '#fff' : '#000',
-          }}>
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="ForgotPass" component={ForgotPass} />
-          <Stack.Screen name="BatteryStatus" component={BatteryStatus} />
-          <Stack.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={() => ({
-              headerShown: true,
-              headerTitle: 'Dashboard',
-              headerBackTitleVisible: false,
-            })}
-          />
-          <Stack.Screen
-            name="AddTemples"
-            component={AddTemples}
-            options={() => ({
-              headerShown: true,
-              headerTitle: 'Add Temples',
-              headerBackTitleVisible: false,
-            })}
-          />
-          <Stack.Screen
-            name="TmplDetailsPage"
-            component={TmplDetailsPage}
-            options={({route}) => ({
-              headerShown: true, // Show the header
-              headerTitle: route.params?.title || 'TmplDetailsPage', // Use the title from route params or a fallback title
-              headerBackTitleVisible: false, // Hide the back button title
-            })}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={!isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName={userData === null ? 'Login' : 'Dashboard'}
+            screenOptions={{
+              headerShown: Platform?.OS === 'android' ? false : true,
+              headerStyle: {
+                backgroundColor: backgroundStyle.backgroundColor,
+              },
+              headerTintColor: !isDarkMode ? '#fff' : '#000',
+            }}>
+            <Stack.Screen name="Signup" component={Signup} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="ForgotPass" component={ForgotPass} />
+            <Stack.Screen name="BatteryStatus" component={BatteryStatus} />
+            <Stack.Screen
+              name="Dashboard"
+              component={Dashboard}
+              options={() => ({
+                headerShown: true,
+                headerTitle: 'Dashboard',
+                headerBackTitleVisible: false,
+              })}
+            />
+            <Stack.Screen
+              name="AddTemples"
+              component={AddTemples}
+              options={() => ({
+                headerShown: true,
+                headerTitle: 'Add Temples',
+                headerBackTitleVisible: false,
+              })}
+            />
+            <Stack.Screen
+              name="TmplDetailsPage"
+              component={TmplDetailsPage}
+              options={({route}) => ({
+                headerShown: true, // Show the header
+                headerTitle: route.params?.title || 'TmplDetailsPage', // Use the title from route params or a fallback title
+                headerBackTitleVisible: false, // Hide the back button title
+              })}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </Provider>
   );
 }
 
