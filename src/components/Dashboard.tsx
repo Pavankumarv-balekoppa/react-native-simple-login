@@ -3,12 +3,13 @@ import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import {width} from '../constants/helper';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
-import { ActivityIndicator } from 'react-native-paper';
-import { logout } from '../Slice/authSlice';
-import { useDispatch } from 'react-redux';
+import {ActivityIndicator, Button} from 'react-native-paper';
+import {logout} from '../Slice/authSlice';
+import {useDispatch} from 'react-redux';
 
 const Dashboard = () => {
   const [data, setdata] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const getData = async () => {
@@ -58,14 +59,16 @@ const Dashboard = () => {
   const dataLoading = () => {
     return (
       <Text style={styles.title}>
-        <ActivityIndicator size="large" color='#ffff'/>
+        <ActivityIndicator size="large" color="#ffff" />
       </Text>
     );
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-  }
+  const handleLogout = async () => {
+    setisLoading(true);
+    await dispatch(logout());
+    setisLoading(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -81,7 +84,9 @@ const Dashboard = () => {
         dataLoading()
       )}
       <Pressable onPress={handleLogout}>
-        <Text style={styles.logoutBtn}>Logout</Text>
+        <Button style={styles.logoutBtn} loading={isLoading}>
+          Logout
+        </Button>
       </Pressable>
     </View>
   );
@@ -128,10 +133,9 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
   logoutBtn: {
-    padding: 10,
+    padding: 3,
     margin: 10,
-    backgroundColor: '#fff3',
-    color: '#fff',
+    backgroundColor: '#fff',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

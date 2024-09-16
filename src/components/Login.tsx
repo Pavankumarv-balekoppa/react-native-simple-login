@@ -19,28 +19,30 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    if (!email) {
-      alert('Email is Required');
-    } else if (
-      !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    ) {
-      alert('please enter valid Email');
-    } else if (!password) {
-      alert('Password is Required');
-    } else if (
-      !password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/)
-    ) {
-      alert(
-        'Password must contain at least one number and one special character and be at least 8 characters long',
-      );
-    } else if (email && password) {
+    // if (!email) {
+    //   alert('Email is Required');
+    // } else if (
+    //   !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    // ) {
+    //   alert('please enter valid Email');
+    // } else if (!password) {
+    //   alert('Password is Required');
+    // } else if (
+    //   !password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/)
+    // ) {
+    //   alert(
+    //     'Password must contain at least one number and one special character and be at least 8 characters long',
+    //   );
+    // } else
+    if (email && password) {
       const userData = {email, password};
       const res = dispatch(login(userData));
       console.log(res?.payload?.email, 'res');
-      if (
-        res?.payload?.email === 'pavan.v@adcuratio.com' &&
-        res?.payload?.password === 'pavan@123'
-      ) {
+      // if (
+      //   res?.payload?.email === 'pavan.v@adcuratio.com' &&
+      //   res?.payload?.password === 'pavan@123'
+      // ) {
+      if (res?.payload?.email === 'p' && res?.payload?.password === 'p') {
         navigation.navigate('Dashboard');
       }
     } else {

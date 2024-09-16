@@ -17,20 +17,20 @@ import ForgotPass from './src/components/ForgotPass';
 import BatteryStatus from './src/components/BatteryStatus';
 import TmplDetailsPage from './src/components/TmplDetailsPage';
 import AddTemples from './src/components/AddTemples';
-import {Provider} from 'react-redux';
-import {store} from './src/Store/Store';
+import {useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const Stack = createStackNavigator();
-  const [userData, setUserData] = React.useState({});
+  const [userData, setUserData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const backgroundStyle = {
     backgroundColor: !isDarkMode ? Colors.darker : Colors.lighter,
     flex: 1,
   };
+  const isloading = useSelector((state) => state.auth.isLoading);
     const fetchUserData = async () => {
       try {
         const data = await AsyncStorage.getItem('user');
@@ -41,10 +41,10 @@ function App(): React.JSX.Element {
         setLoading(false); // Set loading to false once data is fetched
       }
     };
-
+    console.log('isloading', isloading);
     useEffect(() => {
       fetchUserData();
-    }, []);
+    }, [isloading]);
 
     if (loading) {
       return (
@@ -71,7 +71,6 @@ function App(): React.JSX.Element {
     // </SafeAreaView>
 
     // with navigation
-    <Provider store={store}>
       <SafeAreaView style={backgroundStyle}>
         <StatusBar
           barStyle={!isDarkMode ? 'light-content' : 'dark-content'}
@@ -121,7 +120,6 @@ function App(): React.JSX.Element {
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
-    </Provider>
   );
 }
 
