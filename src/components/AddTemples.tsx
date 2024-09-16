@@ -12,6 +12,8 @@ import PressableButton from '../CommanComponents/PressableButton';
 import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { getTempleData } from '../Slice/extraSlice';
+import { useDispatch } from 'react-redux';
 
 const AddTemples = () => {
   const [title, setTitle] = useState('');
@@ -21,6 +23,7 @@ const AddTemples = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const pickImage = () => {
     if (image) {
@@ -77,6 +80,7 @@ const AddTemples = () => {
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
+      dispatch(getTempleData());
       alert('Data submitted successfully:');
       handleReset();
       navigation.navigate('Dashboard');
