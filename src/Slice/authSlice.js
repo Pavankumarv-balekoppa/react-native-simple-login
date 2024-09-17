@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import { storeUserData } from '../constants/helper';
 
 const initialState = {
@@ -34,7 +34,29 @@ const authSlice = createSlice({
       state.isLoading = false;
     },
   },
+  // extraReducers: builder => {
+  //   builder.addCase(logout1.pending, state => {
+  //     state.isLoading = true;
+  //     state.data = {};
+  //   });
+  //   builder.addCase(logout1.fulfilled, (state, action) => {
+  //     state.isLoading = false;
+  //     state.data = action.payload;
+  //   });
+  //   builder.addCase(logout1.rejected, state => {
+  //     state.isLoading = false;
+  //     state.data = {};
+  //   });
+  // },
 });
+
+// export const logout1 = createAsyncThunk('auth/logout1', async () => {
+//   const response = await fetch(
+//     'https://pavanallprojectdata.onrender.com/templeData',
+//   );
+//   const res = await response.json();
+//   return res;
+// });
 
 export const {login, logout, setLoading} = authSlice.actions;
 export default authSlice.reducer;

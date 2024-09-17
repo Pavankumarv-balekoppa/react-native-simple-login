@@ -5,24 +5,17 @@ import FastImage from 'react-native-fast-image';
 import {useNavigation} from '@react-navigation/native';
 import {ActivityIndicator, Button} from 'react-native-paper';
 import {logout} from '../Slice/authSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { getTempleData } from '../Slice/extraSlice';
 
 const Dashboard = () => {
-  const [data, setdata] = useState([]);
+  const tempData = useSelector(state => state.extraSlice.data);
   const [isLoading, setisLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const getData = async () => {
-    const response = await fetch(
-      'https://pavanallprojectdata.onrender.com/templeData',
-    );
-    const json = await response.json();
-    console.log('dataLength=====', json?.length);
-    setdata(json);
-  };
 
   useEffect(() => {
-    getData();
+    dispatch(getTempleData());
   }, []);
 
   const handlepress = (item: any) => {
@@ -53,7 +46,7 @@ const Dashboard = () => {
         </View>
       );
     },
-    [data],
+    [tempData],
   );
 
   const dataLoading = () => {
@@ -68,26 +61,29 @@ const Dashboard = () => {
     setisLoading(true);
     await dispatch(logout());
     setisLoading(false);
+    navigation.navigate('Login');
   };
 
   return (
     <View style={styles.container}>
-      {data?.length ? (
-        <FlatList
-          data={data}
-          scrollEnabled={true}
-          renderItem={renderItems}
-          bounces={false}
-          keyExtractor={item => item.title}
-        />
+      {tempData?.length ? (
+        <View>
+          <FlatList
+            data={tempData}
+            scrollEnabled={true}
+            renderItem={renderItems}
+            // bounces={false}
+            keyExtractor={item => item.title}
+          />
+          <Pressable onPress={handleLogout}>
+            <Button style={styles.logoutBtn} loading={isLoading}>
+              Logout
+            </Button>
+          </Pressable>
+        </View>
       ) : (
         dataLoading()
       )}
-      <Pressable onPress={handleLogout}>
-        <Button style={styles.logoutBtn} loading={isLoading}>
-          Logout
-        </Button>
-      </Pressable>
     </View>
   );
 };
