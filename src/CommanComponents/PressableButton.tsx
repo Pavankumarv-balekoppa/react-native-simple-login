@@ -21,7 +21,6 @@ export default PressableButton
 const styles=StyleSheet.create({
     Buttons:{
         height: 50,
-        width: "35%",
         alignItems: 'center',
         justifyContent: 'center',
         margin: 10,

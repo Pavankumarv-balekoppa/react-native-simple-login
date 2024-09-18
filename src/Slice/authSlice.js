@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: 'authSlice',
   initialState,
   reducers: {
     login: (state, action) => {
@@ -19,11 +19,7 @@ const authSlice = createSlice({
       const loginUserData = allAuthData?.length
         ? allAuthData?.find(user => user?.email === email)
         : null;
-      console.log(
-        'allAuthData',
-        allAuthData,
-        loginUserData,
-      );
+      console.log('allAuthData', allAuthData, loginUserData);
       if (loginUserData) {
         if (
           loginUserData?.email === email &&

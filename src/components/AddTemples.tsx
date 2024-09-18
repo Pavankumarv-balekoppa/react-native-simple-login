@@ -163,6 +163,7 @@ const AddTemples = () => {
           color={'white'}
           onPress={handleReset}
           disabled={false}
+          width={'35%'}
         />
         <PressableButton
           title="Upload"
@@ -170,6 +171,7 @@ const AddTemples = () => {
           color={'white'}
           onPress={handleSubmit}
           disabled={false}
+          width={'35%'}
         />
       </View>
     </ScrollView>
