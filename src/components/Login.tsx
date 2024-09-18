@@ -10,44 +10,46 @@ import {
   View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {login} from '../Slice/authSlice';
+import {getAllUserData, login} from '../Slice/authSlice';
+import {getUserData} from '../constants/helper';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    // if (!email) {
-    //   alert('Email is Required');
-    // } else if (
-    //   !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    // ) {
-    //   alert('please enter valid Email');
-    // } else if (!password) {
-    //   alert('Password is Required');
-    // } else if (
-    //   !password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/)
-    // ) {
-    //   alert(
-    //     'Password must contain at least one number and one special character and be at least 8 characters long',
-    //   );
-    // } else
-    if (email && password) {
+  const handleLogin = async () => {
+    setLoading(true);
+    if (!email) {
+      alert('Email is Required');
+    } else if (
+      !email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ) {
+      alert('please enter valid Email');
+    } else if (!password) {
+      alert('Password is Required');
+    } else if (
+      !password.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/)
+    ) {
+      alert(
+        'Password must contain at least one number and one special character and be at least 8 characters long',
+      );
+    } else if (email && password) {
+      await dispatch(getAllUserData());
       const userData = {email, password};
-      const res = dispatch(login(userData));
-      console.log(res?.payload?.email, 'res');
-      // if (
-      //   res?.payload?.email === 'pavan.v@adcuratio.com' &&
-      //   res?.payload?.password === 'pavan@123'
-      // ) {
-      if (res?.payload?.email === 'p' && res?.payload?.password === 'p') {
-        navigation.navigate('Dashboard');
+      const res = await dispatch(login(userData));
+      const storageData = await getUserData();
+      if (storageData?.email === res?.payload?.email) {
+        navigation.navigate('MainTabs');
+      } else {
+        alert('Invalid credentials');
       }
     } else {
-      alert('Invalid credentials');
+      alert('Please Enter credentials');
     }
+    setLoading(false);
   };
 
   const handleSignUp = () => {
@@ -83,7 +85,7 @@ const Login = () => {
         <Pressable onPress={handleForgotPass}>
           <Text style={styles.forgot}>Forgot Password ?</Text>
         </Pressable>
-        <Pressable onPress={handleLogin}>
+        <Pressable onPress={handleLogin} disabled={loading}>
           <Text style={styles.signBtn}>LOGIN</Text>
         </Pressable>
         <Pressable onPress={handleSignUp}>
