@@ -75,11 +75,11 @@ const Dashboard = () => {
             // bounces={false}
             keyExtractor={item => item.title}
           />
-          <Pressable onPress={handleLogout}>
+          {/* <Pressable onPress={handleLogout}>
             <Button style={styles.logoutBtn} loading={isLoading}>
               Logout
             </Button>
-          </Pressable>
+          </Pressable> */}
         </View>
       ) : (
         dataLoading()

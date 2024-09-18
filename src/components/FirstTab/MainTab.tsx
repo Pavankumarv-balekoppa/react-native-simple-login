@@ -35,6 +35,14 @@ const MainTabs = () => {
           tabBarIcon: () => <Text>👤</Text>,
         }}
       />
+      <Tab.Screen
+        name="Logout"
+        component={Profile}
+        options={{
+          tabBarLabel: 'Logout',
+          tabBarIcon: () => <Text>😔</Text>,
+        }}
+      />
     </Tab.Navigator>
   );
 };
