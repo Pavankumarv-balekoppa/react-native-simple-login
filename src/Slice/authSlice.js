@@ -23,9 +23,6 @@ const authSlice = createSlice({
         'allAuthData',
         allAuthData,
         loginUserData,
-        loginUserData?.email,
-        loginUserData?.password,
-        loginUserData?.email === email && loginUserData?.password === password,
       );
       if (loginUserData) {
         if (
