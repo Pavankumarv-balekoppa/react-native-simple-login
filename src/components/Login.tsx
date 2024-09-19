@@ -12,6 +12,7 @@ import {
 import {useDispatch} from 'react-redux';
 import {getAllUserData, login} from '../Slice/authSlice';
 import {getUserData} from '../constants/helper';
+import {ActivityIndicator} from 'react-native-paper';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -41,10 +42,10 @@ const Login = () => {
       const userData = {email, password};
       const res = await dispatch(login(userData));
       const storageData = await getUserData();
-      if (storageData?.email === res?.payload?.email) {
+      if (res?.payload?.email && storageData?.email === res?.payload?.email) {
         navigation.navigate('MainTabs');
       } else {
-        alert('Invalid credentials');
+        alert(res?.payload);
       }
     } else {
       alert('Please Enter credentials');
@@ -79,14 +80,22 @@ const Login = () => {
           placeholderTextColor={'#455A64'}
           value={password}
           onChangeText={setPassword}
-          secureTextEntry
+          secureTextEntry={true}
           onSubmitEditing={handleLogin}
         />
         <Pressable onPress={handleForgotPass}>
           <Text style={styles.forgot}>Forgot Password ?</Text>
         </Pressable>
-        <Pressable onPress={handleLogin} disabled={loading}>
-          <Text style={styles.signBtn}>LOGIN</Text>
+        <Pressable onPress={handleLogin}>
+          {loading ? (
+            <ActivityIndicator
+              style={styles.signBtn}
+              size="small"
+              color="#ffff"
+            />
+          ) : (
+            <Text style={styles.signBtn}>LOGIN</Text>
+          )}
         </Pressable>
         <Pressable onPress={handleSignUp}>
           <Text style={styles.signBtn}>SIGN UP</Text>
