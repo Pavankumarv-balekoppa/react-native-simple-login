@@ -78,7 +78,7 @@ function App(): React.JSX.Element {
       />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={userData === null ? 'Login' : 'Dashboard'}
+          initialRouteName={userData === null ? 'Login' : 'MainTabs'}
           screenOptions={{
             headerShown: Platform?.OS === 'android' ? false : true,
             headerStyle: {

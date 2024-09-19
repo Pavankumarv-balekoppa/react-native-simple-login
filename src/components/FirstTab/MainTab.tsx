@@ -10,15 +10,21 @@ const Tab = createBottomTabNavigator();
 
 const MainTabs = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#000',
+        },
+        headerTintColor: '#fff',
+        tabBarActiveBackgroundColor: '#000',
+        tabBarActiveTintColor: '#fff',
+      }}>
       <Tab.Screen
         name="Dashboard"
         component={Dashboard}
         options={{
           tabBarLabel: 'Dashboard',
-          tabBarIcon: () => (
-            <Text>🏠</Text> // Replace with an actual icon
-          ),
+          tabBarIcon: () => <Text>🏠</Text>,
         }}
       />
       <Tab.Screen
@@ -26,9 +32,15 @@ const MainTabs = () => {
         component={AddTemples}
         options={{
           tabBarLabel: 'AddTemples',
-          tabBarIcon: () => (
-            <Text>👤</Text> // Replace with an actual icon
-          ),
+          tabBarIcon: () => <Text>👤</Text>,
+        }}
+      />
+      <Tab.Screen
+        name="Logout"
+        component={Profile}
+        options={{
+          tabBarLabel: 'Logout',
+          tabBarIcon: () => <Text>😔</Text>,
         }}
       />
     </Tab.Navigator>
