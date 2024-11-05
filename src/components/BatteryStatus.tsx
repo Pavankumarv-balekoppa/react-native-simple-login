@@ -5,7 +5,6 @@ import {Text, View} from 'react-native';
 const BatteryStatus = () => {
   const [batteryLevel, setBatteryLevel] = useState(0);
 
-  console.log("batteryLevel",batteryLevel)
 //   useEffect(() => {
 //     const unsubscribe = Battery.addLevelListener((level) => {
 //       setBatteryLevel(level);
