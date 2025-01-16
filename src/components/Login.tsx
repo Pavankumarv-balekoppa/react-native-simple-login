@@ -1,5 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
-import {useState} from 'react';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {
   Image,
   Pressable,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
@@ -20,6 +21,7 @@ const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   const handleLogin = async () => {
     setLoading(true);
@@ -53,6 +55,11 @@ const Login = () => {
     setLoading(false);
   };
 
+  useFocusEffect(
+    React.useCallback(()=>{
+      dispatch(getAllUserData());
+    },[])
+  )
   const handleSignUp = () => {
     navigation.navigate('Signup');
   };
@@ -73,16 +80,22 @@ const Login = () => {
           value={email}
           onChangeText={setEmail}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          autoCapitalize="none"
-          placeholderTextColor={'#455A64'}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-          onSubmitEditing={handleLogin}
-        />
+        <View style={styles.inputPass}>
+          <TextInput
+            placeholder="Password"
+            autoCapitalize="none"
+            placeholderTextColor={'#455A64'}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={isPasswordHidden}
+            onSubmitEditing={handleLogin}
+          />
+          <TouchableOpacity onPress={()=>{setIsPasswordHidden(!isPasswordHidden)}}>
+            <Text style={{color: '#000',fontSize:30}}>
+              {isPasswordHidden ? '🕶️' : '👀'}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <Pressable onPress={handleForgotPass}>
           <Text style={styles.forgot}>Forgot Password ?</Text>
         </Pressable>
@@ -144,6 +157,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: 'red',
     marginLeft: '40%',
+  },
+  inputPass: {
+    height: 50,
+    width: 300,
+    borderWidth: 1,
+    marginBottom: 30,
+    paddingLeft: 8,
+    borderRadius: 4,
+    flexDirection:'row',
+    display:'flex',
+    justifyContent:"space-between",
+    alignItems:'center',
+    paddingRight:5,
   },
 });
 export default Login;

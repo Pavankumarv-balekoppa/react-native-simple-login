@@ -21,6 +21,7 @@ import {useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper';
 import MainTabs from './src/components/FirstTab/MainTab';
+import './ReactotronConfig'; // Import this at the top of your entry point
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

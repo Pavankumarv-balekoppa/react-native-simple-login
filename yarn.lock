@@ -3286,7 +3286,6 @@ __metadata:
     prettier: 2.8.8
     react: 18.2.0
     react-native: 0.73.0
-    react-native-device-battery: ^2.1.0
     react-native-fast-image: ^8.6.3
     react-native-gesture-handler: ^2.16.2
     react-native-image-picker: ^7.1.2
@@ -3295,6 +3294,8 @@ __metadata:
     react-native-screens: ^3.31.1
     react-redux: ^9.1.2
     react-test-renderer: 18.2.0
+    reactotron-react-native: ^5.1.11
+    reactotron-redux: ^3.1.10
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -7621,6 +7622,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mitt@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mitt@npm:3.0.1"
+  checksum: b55a489ac9c2949ab166b7f060601d3b6d893a852515ae9eca4e11df01c013876df777ea109317622b5c1c60e8aae252558e33c8c94e14124db38f64a39614b1
+  languageName: node
+  linkType: hard
+
 "mkdirp@npm:^0.5.1":
   version: 0.5.6
   resolution: "mkdirp@npm:0.5.6"
@@ -8384,13 +8392,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-device-battery@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "react-native-device-battery@npm:2.1.0"
-  checksum: 51eb2690795353ee90bcd2cc6c1fb53af56aa7638a5dda231793af5814d16a84fae484058e34c08d8f9457ec30ddefee57ef03ed1a319d26ae9c84199e8eaa9a
-  languageName: node
-  linkType: hard
-
 "react-native-fast-image@npm:^8.6.3":
   version: 8.6.3
   resolution: "react-native-fast-image@npm:8.6.3"
@@ -8572,6 +8573,44 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
+  languageName: node
+  linkType: hard
+
+"reactotron-core-client@npm:2.9.6":
+  version: 2.9.6
+  resolution: "reactotron-core-client@npm:2.9.6"
+  dependencies:
+    reactotron-core-contract: 0.2.4
+  checksum: 4d09b501cbcac44cd06f1c7210429b6acc486e348ca0dd9e2e4268d635cec11a22e101e306395066bd769f470a8cea9b44a26c0d285fc907479aef5b4eb3350e
+  languageName: node
+  linkType: hard
+
+"reactotron-core-contract@npm:0.2.4":
+  version: 0.2.4
+  resolution: "reactotron-core-contract@npm:0.2.4"
+  checksum: b3c3e21f3137202d3089b00eda409ec1fb72b8ec296d710883dca07dfb98fa8c48564347854b40b031adcbeb17842730adebac53890f516a5304d03d90d1c1c7
+  languageName: node
+  linkType: hard
+
+"reactotron-react-native@npm:^5.1.11":
+  version: 5.1.11
+  resolution: "reactotron-react-native@npm:5.1.11"
+  dependencies:
+    mitt: ^3.0.1
+    reactotron-core-client: 2.9.6
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: 7d593b0e7d41ec870236baee3da2a67c2803fbb9471e93d1c09d91bdb21af2d86c99c6d7778bee4fb0abd9ba1ab60a3e12b98a9bfe3b1805eca56574cb2be5f9
+  languageName: node
+  linkType: hard
+
+"reactotron-redux@npm:^3.1.10":
+  version: 3.1.10
+  resolution: "reactotron-redux@npm:3.1.10"
+  peerDependencies:
+    reactotron-core-client: "*"
+    redux: ">=4.0.0"
+  checksum: 5922ba94240bb6d221e58e798a30aff35f5de3b4e3bfc0a8ae7d4e9554b6328a4a33e771fd6a9ca8c0fdfc65cd16fd82b583361c41b7e17aa823c3850947392b
   languageName: node
   linkType: hard
 
