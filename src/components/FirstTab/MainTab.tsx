@@ -36,10 +36,10 @@ const MainTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Logout"
+        name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: 'Logout',
+          tabBarLabel: 'Profile',
           tabBarIcon: () => <Text>😔</Text>,
         }}
       />

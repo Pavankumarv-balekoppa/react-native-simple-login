@@ -22,6 +22,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [localData,setLocalData]= useState("")
 
   const handleLogin = async () => {
     setLoading(true);
@@ -57,7 +58,18 @@ const Login = () => {
 
   useFocusEffect(
     React.useCallback(()=>{
-      dispatch(getAllUserData());
+      const callfun=async()=>{
+        const storageData = await getUserData();
+        console.log('storageData===', storageData);
+        setLocalData(storageData);
+        if (storageData) {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'MainTabs'}],
+          });
+        } 
+      }
+      callfun()
     },[])
   )
   const handleSignUp = () => {

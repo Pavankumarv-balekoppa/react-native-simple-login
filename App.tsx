@@ -56,6 +56,9 @@ function App(): React.JSX.Element {
         </SafeAreaView>
       );
     }
+    const initialRout =()=>{
+      return userData === null ? 'Login' : 'MainTabs';
+    }
 
   console.log('userdata', userData);
 
@@ -79,7 +82,7 @@ function App(): React.JSX.Element {
       />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={userData === null ? 'Login' : 'MainTabs'}
+          initialRouteName={initialRout()}
           screenOptions={{
             headerShown: Platform?.OS === 'android' ? false : true,
             headerStyle: {
