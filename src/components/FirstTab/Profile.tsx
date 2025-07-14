@@ -40,7 +40,7 @@ const Profile = () => {
       <View>
         <FastImage
           source={{uri: useDetails?.image_url}}
-          style={{width: width, height: height-500}}
+          style={{width: width, height: height - 500}}
           resizeMode={FastImage.resizeMode.contain}
         />
       </View>
@@ -63,7 +63,12 @@ const Profile = () => {
         </View>
       </View>
       <View>
-        <PressableButton title="Logout" onPress={handleLogout} />
+        <PressableButton
+          backgroundColor={'red'}
+          color={'white'}
+          title="Logout"
+          onPress={handleLogout}
+        />
       </View>
     </ScrollView>
   );
