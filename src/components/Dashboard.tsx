@@ -20,7 +20,6 @@ const Dashboard = () => {
 
   const handlepress = (item: any) => {
     navigation.push('TmplDetailsPage', item);
-    //  navigation.navigate('TmplDetailsPage', item);
   };
 
   const renderItems = React.useCallback(

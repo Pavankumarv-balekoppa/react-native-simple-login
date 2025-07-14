@@ -22,6 +22,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [localData, setLocalData] = useState('');
 
   const handleLogin = async () => {
     setLoading(true);
@@ -40,7 +41,13 @@ const Login = () => {
         'Password must contain at least one number and one special character and be at least 8 characters long',
       );
     } else if (email && password) {
-      await dispatch(getAllUserData());
+      console.log('email && password: ', email && password);
+
+      const resData = await dispatch(getAllUserData());
+      if (resData?.error) {
+        alert(resData?.payload);
+      }
+      console.log('email && password: ', resData);
       const userData = {email, password};
       const res = await dispatch(login(userData));
       const storageData = await getUserData();
@@ -56,10 +63,21 @@ const Login = () => {
   };
 
   useFocusEffect(
-    React.useCallback(()=>{
-      dispatch(getAllUserData());
-    },[])
-  )
+    React.useCallback(() => {
+      const callfun = async () => {
+        const storageData = await getUserData();
+        console.log('storageData===', storageData);
+        setLocalData(storageData);
+        if (storageData) {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'MainTabs'}],
+          });
+        }
+      };
+      callfun();
+    }, []),
+  );
   const handleSignUp = () => {
     navigation.navigate('Signup');
   };
@@ -90,8 +108,11 @@ const Login = () => {
             secureTextEntry={isPasswordHidden}
             onSubmitEditing={handleLogin}
           />
-          <TouchableOpacity onPress={()=>{setIsPasswordHidden(!isPasswordHidden)}}>
-            <Text style={{color: '#000',fontSize:30}}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsPasswordHidden(!isPasswordHidden);
+            }}>
+            <Text style={{color: '#000', fontSize: 30}}>
               {isPasswordHidden ? '🕶️' : '👀'}
             </Text>
           </TouchableOpacity>
@@ -165,11 +186,11 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     paddingLeft: 8,
     borderRadius: 4,
-    flexDirection:'row',
-    display:'flex',
-    justifyContent:"space-between",
-    alignItems:'center',
-    paddingRight:5,
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingRight: 5,
   },
 });
 export default Login;

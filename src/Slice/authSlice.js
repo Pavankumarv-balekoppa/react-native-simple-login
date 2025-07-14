@@ -53,7 +53,6 @@ const authSlice = createSlice({
   },
 });
 
-
 // Thunks for login and logout
 export const login = createAsyncThunk(
   'authSlice/login',
@@ -82,14 +81,20 @@ export const logout = createAsyncThunk('authSlice/logout', async () => {
 
 export const getAllUserData = createAsyncThunk(
   'authSlice/getAllUserData',
-  async () => {
-    const response = await fetch(
-      'https://pavanallprojectdata.onrender.com/auth',
-    );
-    const res = await response.json();
-    return res;
+  async (_, {rejectWithValue}) => {
+    try {
+      const response = await fetch(
+        'https://pavanallprojectdata.onrender.com/auth',
+      );
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+      return await response.json();
+    } catch (err) {
+      console.error('Network error:', err.message);
+      return rejectWithValue(err.message);
+    }
   },
 );
-
 
 export default authSlice.reducer;
