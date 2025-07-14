@@ -5,6 +5,7 @@ import HomeScreen from './HomeScreen';
 import Profile from './Profile';
 import Dashboard from '../Dashboard';
 import AddTemples from '../AddTemples';
+import IPCsection from '../IPCsection';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,15 @@ const MainTabs = () => {
         component={AddTemples}
         options={{
           tabBarLabel: 'AddTemples',
-          tabBarIcon: () => <Text>👤</Text>,
+          tabBarIcon: () => <Text>🛕</Text>,
+        }}
+      />
+      <Tab.Screen
+        name="IPCsection"
+        component={IPCsection}
+        options={{
+          tabBarLabel: 'IPCsection',
+          tabBarIcon: () => <Text>📕</Text>,
         }}
       />
       <Tab.Screen
@@ -40,7 +49,7 @@ const MainTabs = () => {
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: () => <Text>😔</Text>,
+          tabBarIcon: () => <Text>👤</Text>,
         }}
       />
     </Tab.Navigator>

@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import PressableButton from '../../CommanComponents/PressableButton';
 import {logout} from '../../Slice/authSlice';
@@ -6,12 +6,13 @@ import {useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useCallback, useEffect, useState} from 'react';
-import {getUserData, width} from '../../constants/helper';
+import {getUserData, width, height} from '../../constants/helper';
+import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [useDetails,setUserDetails] = useState("")
+  const [useDetails, setUserDetails] = useState('');
   const handleLogout = async () => {
     await dispatch(logout());
     navigation.reset({
@@ -35,7 +36,14 @@ const Profile = () => {
     }, []),
   );
   return (
-    <View>
+    <ScrollView>
+      <View>
+        <FastImage
+          source={{uri: useDetails?.image_url}}
+          style={{width: width, height: height-500}}
+          resizeMode={FastImage.resizeMode.contain}
+        />
+      </View>
       <View>
         <View style={styles.textField}>
           <Text style={[styles.text, {width: 70}]}> Name</Text>
@@ -57,7 +65,7 @@ const Profile = () => {
       <View>
         <PressableButton title="Logout" onPress={handleLogout} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -66,15 +74,15 @@ export default Profile;
 const styles = StyleSheet.create({
   textField: {
     display: 'flex',
-    flexDirection:'row',
-    columnGap:10,
+    flexDirection: 'row',
+    columnGap: 10,
     backgroundColor: '#1B1D21',
     borderRadius: 7,
     padding: 10,
-    margin:3,
+    margin: 3,
   },
-  text:{
-    color:"#fff",
-    fontSize:20
-  }
+  text: {
+    color: '#fff',
+    fontSize: 20,
+  },
 });

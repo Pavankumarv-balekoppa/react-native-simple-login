@@ -22,6 +22,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text } from 'react-native-paper';
 import MainTabs from './src/components/FirstTab/MainTab';
 import './ReactotronConfig'; // Import this at the top of your entry point
+import IPCsection from './src/components/IPCsection';
+import IPCsectionDetails from './src/components/IPCsectionDetails';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -116,6 +118,24 @@ function App(): React.JSX.Element {
             options={() => ({
               headerShown: true,
               headerTitle: 'Add Temples',
+              headerBackTitleVisible: false,
+            })}
+          />
+          <Stack.Screen
+            name="IPCsection"
+            component={IPCsection}
+            options={() => ({
+              headerShown: true,
+              headerTitle: 'IPC section',
+              headerBackTitleVisible: false,
+            })}
+          />
+          <Stack.Screen
+            name="IPCsectionDetails"
+            component={IPCsectionDetails}
+            options={({route}) => ({
+              headerShown: true,
+              headerTitle: route.params?.section_title || 'IPCsection Details',
               headerBackTitleVisible: false,
             })}
           />
